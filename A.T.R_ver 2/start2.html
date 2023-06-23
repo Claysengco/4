@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A.T.R</title>
+    <link rel="icon" type="image/x-icon" href="img/download (16)-fotor-bg-remover-202306180383.png">
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 50%;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+
+      #score-container,
+      #freq-of-correct-container,
+      #freq-of-error-container,
+      #ranking-of-correct-container,
+      #ranking-of-error-container {
+        display: flex !important;
+        justify-content: start;
+        align-items: start;
+      }
+
+      .students-score,
+      .freq-of-correct,
+      .freq-of-error,
+      .ranking-of-correct,
+      .ranking-of-error {
+        width: 10%;
+      }
+
+      body {
+        background-color: #d7f1f9;
+      }
+
+      /* inputs */
+      input[type="number"] {
+        border: none;
+        width: 50px;
+        background-color: transparent;
+        text-align: center;
+        margin: 0;
+        font-size: 15px;
+        width: 100px;
+      }
+
+      input[type="number"] {
+        width: 50px;
+      }
+
+      input[type="text"] {
+        border: none;
+        width: 100px;
+        background-color: transparent;
+        text-align: start;
+        margin: 0;
+        font-size: 15px;
+      }
+
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+      button.enter-inputs {
+        background-color: #5aa4bb;
+        border: none;
+        color: white;
+        padding: 5px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        /* box-shadow: 1px 1px 6px 2px rgb(0, 98, 94); */
+        border-radius: 10px;
+      }
+
+      button.enter-inputs:hover {
+        background-color: #417585;
+        color: white;
+      }
+
+
+
+      .input-section {
+        /* width: 50%; */
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      }
+
+      .input-section-text {
+        margin: 10px 0px;
+      }
+
+      label {
+        width: 270px;
+        font-size: 15px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      table {
+        border-collapse: collapse;
+        border: 2px solid #90b1bb;
+        text-align: center;
+        font-size: 12px;
+        margin: 0px 3px;
+      }
+
+      thead,
+      th,
+      td {
+        text-align: center;
+        border: 1px solid #90b1bb;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #ffffff;
+      }
+
+      h2 {
+        text-align: start;
+        align-items: center;
+        display: flex;
+      }
+
+      .inputs {
+        margin: 20px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 3px solid #6ca6b9;
+        display: flex;
+      }
+
+      .input-a {
+        width: 50%;
+      }
+
+      .input-b {
+        width: 50%;
+      }
+
+      .thead {
+        background-color: #a6e2f5 !important;
+        border: 1px solid #90b1bb;
+      }
+
+      hr {
+        color: #5aa4bb;
+        background-color: #90b1bb;
+        height: 2px;
+        border: none;
+      }
+
+      .tables {
+        margin: 20px;
+      }
+
+      .table-container {
+        background-color: #c4eaf6;
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 3px solid #6ca6b9;
+        margin: 10px 0px;
+        min-width: fit-content;
+      }
+
+      .inner-table {
+        margin: 20px 0px;
+      }
+
+      @media print { 
+        button.enter-inputs, button.print , .button-section {
+          display: none;
+        }
+
+        .table-container {
+          page-break-inside: avoid;
+        }
+
+        .table-container:nth-child(1) ~ .table-container {
+          page-break-before: always;
+        }
+
+      }
+
+      /* print button */
+      .button-section {
+          margin: 0px 20px;
+          width: -webkit-fit-content;
+          float: right;
+          position: sticky;
+          bottom: 20px;
+      }
+
+      button.print {
+        background-color: #5aa4bb;
+        border: none;
+        color: white;
+        padding: 5px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        box-shadow: 1px 1px 6px 2px rgb(0, 98, 94);
+        border-radius: 10px;
+      }
+
+      button.print:hover {
+        background-color: #417585;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- inputs -->
+    <div class="inputs">
+      <div class="input-a">
+        <div class="input-section input-section-text">
+          <label for="item-input">Quarter:</label>
+            <select style="background: transparent; cursor: pointer;">
+              <option>1st Quarter</option>
+              <option>2nd Quarter</option>
+              <option>3rd Quarter</option>
+              <option>4th Quarter</option>
+            </select>
+        </div>
+  
+        <div class="input-section input-section-text">
+          <label for="item-input">School Year:</label>
+          <input type="text" placeholder="......" />
+        </div>
+  
+        <div class="input-section input-section-text">
+          <label for="item-input">Subject:</label>
+          <input type="text" placeholder="......" />
+        </div>
+  
+        <div class="input-section input-section-text">
+          <label for="item-input">Section:</label>
+          <input type="text" placeholder="......" />
+        </div>
+  
+        <div class="input-section">
+          <label for="row-input">Number of takers(n):</label>
+          <input type="number" id="row-input" min="1" placeholder="0"/>
+          <button onclick="generateTable()" class="enter-inputs">
+            Generate Score Table
+          </button>
+        </div>
+  
+        <div class="input-section">
+          <label for="item-input"># of items:</label>
+          <input type="number" id="item-input" min="1" placeholder="0" />
+          <button onclick="generateFreqRankingTable()" class="enter-inputs">
+            Generate Table
+          </button>
+        </div>
+      </div>
+      <div class="input-b">
+        
+        <div class="input-section input-section-text">
+          <label for="mean-input">Mean:</label>
+          <span id="mean">0</span>
+        </div>
+
+        <div class="input-section input-section-text">
+          <label >Median:</label>
+          <span id="median">0</span>
+        </div>
+
+        <div class="input-section input-section-text">
+          <label >Mode:</label>
+          <span id="mode">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="std-deviation-input">Standard Deviation:</label>
+          <span id="std-deviation">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="highest-score-input">Highest Score:</label>
+          <span id="highest-score">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="lowest-score-input">Lowest Score:</label>
+          <span id="lowest-score">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="mastery-level-input">Mastery Level:</label>
+          <span id="mastery-level">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="freq-lowest-item-input">Frequency of Lowest Item in FCR:</label>
+          <span id="freq-lowest-item">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="items-lowest-correct-input">Items with Lowest Correct Response:</label>
+          <span id="items-lowest-correct">0</span>
+        </div>
+        
+        <div class="input-section input-section-text">
+          <label for="lowest-correct-response-input">Lowest Correct Response:</label>
+          <span id="lowest-correct-response">0</span>
+        </div>     
+        <button onclick="getAnalytics()" class="enter-inputs">Calculate analytics</button>   
+      </div>
+      
+    </div>
+
+    <!-- tables -->
+    <div class="tables">
+      <div class="table-container">
+        <div class="inner-table">
+          <h2>Record of Scores</h2>
+          <div id="score-container"></div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="inner-table">
+          <h2>Frequency of Correct</h2>
+          <div id="freq-of-correct-container"></div>   
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="inner-table">
+          <h2>Frequency of Error</h2>
+          <div id="freq-of-error-container"></div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="inner-table">
+          <h2>Ranking of Correct Items <button onclick="generateCorrectRanking()" class="enter-inputs">Calculate Ranking</button></h2> 
+          <div id="ranking-of-correct-container"></div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="inner-table">
+          <h2>Ranking of Error Items <button onclick="generateErrorRanking()" class="enter-inputs">Calculate Ranking</button></h2>
+          <div id="ranking-of-error-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-section">
+      <button id="print" class="print">Print</button>
+    </div>
+
+    <script>
+      const printButton = document.getElementById("print");
+      printButton.addEventListener("click", function () {
+          window.print();
+      });
+
+      function generateTable() {
+        var rowInput = document.getElementById("row-input");
+        var rowCount = parseInt(rowInput.value);
+
+        // Clear previous tables
+        var tablesContainer = document.getElementById("score-container");
+        tablesContainer.innerHTML = "";
+
+        var numberOfColumns = 2;
+        var rowsPerTable = 10;
+        var numTables = Math.ceil(rowCount / rowsPerTable);
+        var currentRow = 0;
+
+        for (var i = 0; i < numTables; i++) {
+          var table = document.createElement("table");
+          table.className = "students-score";
+
+          // Create table header
+          var headerRow = table.insertRow();
+          headerRow.className = "thead";
+          var numberHeader = headerRow.insertCell();
+          numberHeader.innerHTML = "<b>#</b>";
+          var scoreHeader = headerRow.insertCell();
+          scoreHeader.innerHTML = "<b>Score</b>";
+
+          // Create table rows
+          // var count = 1;
+          for (var j = 0; j < rowsPerTable && currentRow < rowCount; j++) {
+            var row = table.insertRow();
+            var numberCell = row.insertCell();
+            numberCell.innerHTML = currentRow + 1;
+            var idcounter = currentRow + 1;
+            var scoreCell = row.insertCell();
+            scoreCell.innerHTML =
+              "<input type='number' class='student-score-input' id='student-" +
+              idcounter +
+              "-score'>";
+
+            currentRow++;
+            // count++;
+          }
+
+          tablesContainer.appendChild(table);
+        }
+
+        // Reset the input field
+        // rowInput.value = "";
+      }
+
+      function generateFreqRankingTable() {
+        var itemInput = document.getElementById("item-input");
+        var itemCount = parseInt(itemInput.value);
+
+        // Clear previous tables
+        var freqCorrectContainer = document.getElementById(
+          "freq-of-correct-container"
+        );
+        freqCorrectContainer.innerHTML = "";
+
+        var freqErrorContainer = document.getElementById(
+          "freq-of-error-container"
+        );
+
+        var rcContainer = document.getElementById(
+          "ranking-of-correct-container"
+        );
+
+        var reContainer = document.getElementById(
+          "ranking-of-error-container"
+        );
+
+        freqErrorContainer.innerHTML = "";
+        rcContainer.innerHTML = "";
+        reContainer.innerHTML = "";
+
+
+        var numberOfColumns = 3;
+        var rowsPerTable = 10;
+        var numTables = Math.ceil(itemCount / rowsPerTable);
+        var currentRow = 0;
+
+        for (var i = 0; i < numTables; i++) {
+          // Generate frequency of correct table
+          var freqCorrectTable = document.createElement("table");
+          freqCorrectTable.className = "freq-of-correct";
+
+          // Create table header
+          var correctHeaderRow = freqCorrectTable.insertRow();
+          correctHeaderRow.className = "thead";
+          var numberCorrectHeader = correctHeaderRow.insertCell();
+          numberCorrectHeader.innerHTML = "<b>ITEM #</b>";
+          var fcrHeader = correctHeaderRow.insertCell();
+          fcrHeader.innerHTML = "<b>FCR</b>";
+          var percentCorrectHeader = correctHeaderRow.insertCell();
+          percentCorrectHeader.innerHTML = "<b>%</b>";
+
+          // Create table rows for frequency of correct table
+          var correctCount = 1;
+          for (var j = 0; j < rowsPerTable && currentRow < itemCount; j++) {
+            var correctRow = freqCorrectTable.insertRow();
+            var numberCorrectCell = correctRow.insertCell();
+            numberCorrectCell.innerHTML = currentRow + 1;
+            var idcounter = currentRow + 1;
+            var fcrCell = correctRow.insertCell();
+            fcrCell.innerHTML =
+              "<input type='number' class='freq-of-correct-input' id='item-" +
+              idcounter +
+              "-correct'>";
+            var percentCorrectCell = correctRow.insertCell();
+            percentCorrectCell.innerHTML =
+              "<span id='percent-correct-" + idcounter + "'>0%</span>";
+
+            currentRow++;
+            correctCount++;
+          }
+
+          freqCorrectContainer.appendChild(freqCorrectTable);
+        }
+
+        currentRow = 0; // Reset currentRow to 0
+
+        for (var k = 0; k < numTables; k++) {
+          // Generate frequency of error table
+          var freqErrorTable = document.createElement("table");
+          freqErrorTable.className = "freq-of-error";
+
+          // Create table header
+          var errorHeaderRow = freqErrorTable.insertRow();
+
+          var numberErrorHeader = errorHeaderRow.insertCell();
+          numberErrorHeader.className = "thead";
+          numberErrorHeader.innerHTML = "<b>ITEM #</b>";
+          var fceHeader = errorHeaderRow.insertCell();
+          fceHeader.innerHTML = "<b>FCE</b>";
+          fceHeader.className = "thead";
+          var percentErrorHeader = errorHeaderRow.insertCell();
+          percentErrorHeader.innerHTML = "<b>%</b>";
+          percentErrorHeader.className = "thead";
+
+          // Create table rows for frequency of error table
+          var errorCount = 1;
+          for (var l = 0; l < rowsPerTable && currentRow < itemCount; l++) {
+            var errorRow = freqErrorTable.insertRow();
+            var numberErrorCell = errorRow.insertCell();
+            numberErrorCell.innerHTML = currentRow + 1;
+            var idcounter = currentRow + 1;
+            var fceCell = errorRow.insertCell();
+            fceCell.innerHTML =
+              "<input type='number' class='freq-of-error-input' id='item-" +
+              idcounter +
+              "-error'>";
+            var percentErrorCell = errorRow.insertCell();
+            percentErrorCell.innerHTML =
+              "<span id='percent-error-" + idcounter + "'>0%</span>";
+
+            currentRow++;
+            errorCount++;
+          }
+
+          freqErrorContainer.appendChild(freqErrorTable);
+        }
+
+        // Reset currentRow to 0
+        currentRow = 0;
+
+        // Ranking for correct
+        for (var m = 0; m < numTables; m++) {
+          // Generate ranking for correct table
+          var rankCorrectTable = document.createElement("table");
+          rankCorrectTable.className = "ranking-of-correct";
+
+          // Create table header
+          var rankCorrectHeaderRow = rankCorrectTable.insertRow();
+
+          var numberRankingCorrectHeader = rankCorrectHeaderRow.insertCell();
+          numberRankingCorrectHeader.className = "thead";
+          numberRankingCorrectHeader.innerHTML = "<b>ITEM #</b>";
+          var rcHeader = rankCorrectHeaderRow.insertCell();
+          rcHeader.innerHTML = "<b>FCR</b>";
+          rcHeader.className = "thead";
+
+          // Create table rows for ranking for correct table
+          var rcCount = 1;
+          for (var n = 0; n < rowsPerTable && currentRow < itemCount; n++) {
+            var rcRow = rankCorrectTable.insertRow();
+            var numberCorrectCell = rcRow.insertCell();
+            numberCorrectCell.className = "correct-rank";
+            numberCorrectCell.innerHTML = currentRow + 1;
+            var idcounter = currentRow + 1;
+            var fcrCell = rcRow.insertCell();
+            fcrCell.className = "correct-rank";
+            fcrCell.id = "correct-rank-item-" + idcounter;
+
+            currentRow++;
+            rcCount++;
+          }
+
+          rcContainer.appendChild(rankCorrectTable);
+        }
+
+
+        // Reset currentRow to 0
+        currentRow = 0;
+
+        // Ranking for error
+        for (var p = 0; p < numTables; p++) {
+          // Generate ranking for correct table
+          var rankErrorTable = document.createElement("table");
+          rankErrorTable.className = "ranking-of-error";
+
+          // Create table header
+          var rankErrorHeaderRow = rankErrorTable.insertRow();
+
+          var numberRankingErrorHeader = rankErrorHeaderRow.insertCell();
+          numberRankingErrorHeader.className = "thead";
+          numberRankingErrorHeader.innerHTML = "<b>ITEM #</b>";
+          var reHeader = rankErrorHeaderRow.insertCell();
+          reHeader.innerHTML = "<b>FCE</b>";
+          reHeader.className = "thead";
+
+          // Create table rows for ranking for correct table
+          var reCount = 1;
+          for (var q = 0; q < rowsPerTable && currentRow < itemCount; q++) {
+            var reRow = rankErrorTable.insertRow();
+            var numberErrorCell = reRow.insertCell();
+            numberErrorCell.className = "error-rank";
+            numberErrorCell.innerHTML = currentRow + 1;
+            var idcounter = currentRow + 1;
+            var ferCell = reRow.insertCell();
+            ferCell.className = "error-rank";
+            ferCell.id = "error-rank-item-" + idcounter;
+
+            currentRow++;
+            reCount++;
+          }
+
+          reContainer.appendChild(rankErrorTable);
+        }
+
+
+       // Computation of frequencies
+      const inputCorrect = document.querySelectorAll('.freq-of-correct-input');
+      const inputError = document.querySelectorAll('.freq-of-error-input');
+
+      // const data = [];
+      inputCorrect.forEach((input, index) => {
+        // const item = {
+        //   correct: input.value,
+        //   error: inputError[index].value
+        // };
+        // data.push(item);
+        // console.log(inputError[index].value)
+
+        input.addEventListener('input', (event) => {
+          const updatedValue = event.target.value;
+          // data[index].correct = updatedValue;
+          computePercentage(input, index + 1, "percent-correct-", "percent-error-");
+          if (index < inputError.length) {
+            distributeExcess(updatedValue, index + 1);
+          }
+          console.log('Frequency of correct computed');
+          // logStoredData();
+        });
+      });
+
+      function computePercentage(input, index, inputSpanPrefix, excessSpanPrefix) {
+        var value = parseInt(input.value);
+        var totalValue = parseInt(itemInput.value);
+        var excess = parseInt(document.getElementById(excessSpanPrefix + index).textContent);
+
+        var percent = (value / totalValue) * 100;
+
+        var percentSpan = document.getElementById(inputSpanPrefix + index);
+        var excessSpan = document.getElementById(excessSpanPrefix + index);
+
+        if (!isNaN(percent)) {
+          percentSpan.textContent = percent.toFixed(2) + "%";
+        } else {
+          percentSpan.textContent = "0.00%";
+        }
+
+        excessSpan.textContent = excess.toFixed(2) + "%";
+      }
+
+
+      function distributeExcess(value, index) {
+        var totalValue = parseInt(itemInput.value);
+        var excess = totalValue - parseInt(value);
+
+        if (excess < 0) {
+          excess = 0;
+        }
+
+        var excessInput = document.getElementById("item-" + index + "-error");
+        excessInput.value = excess;
+        computePercentage(excessInput, index, "percent-error-", "percent-correct-");
+      }
+
+      // if manual input to error
+      inputError.forEach((input, index) => {
+        input.addEventListener('input', () => {
+          computePercentageError(input, index + 1, "percent-error-");
+          console.log('Frequency of error computed');
+        });
+      });
+
+      function computePercentageError(input, index, spanPrefix) {
+        var value = parseInt(input.value);
+        var totalValue = parseInt(itemInput.value);
+        var percent = (value / totalValue) * 100;
+
+        var percentSpan = document.getElementById(spanPrefix + index);
+
+        if (!isNaN(percent)) {
+          percentSpan.textContent = percent.toFixed(2) + "%";
+        } else {
+          percentSpan.textContent = "0%";
+        }
+      }
+
+      // function logStoredData() {
+      //   console.log(data);
+      // }
+
+    }
+   
+    function generateCorrectRanking() {
+      const getInputCorrect = document.querySelectorAll('.freq-of-correct-input');
+      const dataArray = [];
+      const dataArrayRanked = [];
+
+      getInputCorrect.forEach((input, index) => {
+        dataArray.push(input.value);
+      });
+
+      // Create a sorted copy of the dataArray
+      const sortedArray = [...dataArray].sort((a, b) => b - a);
+
+      getInputCorrect.forEach((input, index) => {
+        const rank = sortedArray.indexOf(input.value) + 1;
+        const entry = `index-${index + 1}: ${rank}`;
+        dataArrayRanked.push(entry);
+
+        const rankElement = document.getElementById(`correct-rank-item-${index + 1}`);
+        if (rankElement) {
+          rankElement.innerHTML = rank;
+        }
+      });
+
+      console.log(dataArrayRanked); // Log the ranked array to the console
+
+      // You can now use the 'dataArrayRanked' array for further processing or storage
+    }
+
+    function generateErrorRanking() {
+      const getInputError = document.querySelectorAll('.freq-of-error-input');
+      const dataErrorArray = [];
+      const dataErrorArrayRanked = [];
+
+      getInputError.forEach((input, index) => {
+        dataErrorArray.push(input.value);
+      });
+
+      // Create a sorted copy of the dataErrorArray
+      const sortedArray = [...dataErrorArray].sort((a, b) => b - a);
+
+      getInputError.forEach((input, index) => {
+        const rank = sortedArray.indexOf(input.value) + 1;
+        const entry = `index-${index + 1}: ${rank}`;
+        dataErrorArrayRanked.push(entry);
+
+        const rankElement = document.getElementById(`error-rank-item-${index + 1}`);
+        if (rankElement) {
+          rankElement.innerHTML = rank;
+        }
+      });
+
+      console.log(dataErrorArrayRanked); // Log the ranked array to the console
+
+      // You can now use the 'dataErrorArrayRanked' array for further processing or storage
+    }
+
+    // analytics
+    function getAnalytics() {
+    const scoreInput = document.querySelectorAll('.student-score-input');
+    const getAnalyticsError = document.querySelectorAll('.freq-of-error-input');
+    const getAnalyticsCorrect = document.querySelectorAll('.freq-of-correct-input');
+    const dataScores = [];
+    const dataCorrect = [];
+    const dataError = [];
+
+    scoreInput.forEach(input => {
+      dataScores.push(parseFloat(input.value));
+    });
+
+    getAnalyticsCorrect.forEach(input => {
+      dataCorrect.push(parseFloat(input.value));
+    });
+
+    getAnalyticsError.forEach(input => {
+      dataError.push(input.value);
+    });
+
+    const sum = dataScores.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const mean = sum / dataScores.length;
+
+    const squaredDifferences = dataScores.map(score => (score - mean) ** 2);
+    const variance = squaredDifferences.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / dataScores.length;
+    const stdDeviation = Math.sqrt(variance);
+
+    const highestScore = Math.max(...dataScores);
+    const lowestScore = Math.min(...dataScores);
+
+    const masteryLevel = determineMasteryLevel(mean);
+
+    const lowestValue = Math.min(...dataCorrect);
+    const lowestIndex = dataCorrect.indexOf(lowestValue);
+
+    const lowestValueOften = dataCorrect.filter(value => value === lowestValue).length;
+
+    const mode = calculateMode(dataScores);
+
+    const median = calculateMedian(dataScores);
+
+    function calculateMode(arr) {
+      const frequency = {};
+      let maxCount = 0;
+      let mode = [];
+
+      arr.forEach(value => {
+        if (!(value in frequency)) {
+          frequency[value] = 1;
+        } else {
+          frequency[value]++;
+        }
+
+        if (frequency[value] > maxCount) {
+          maxCount = frequency[value];
+        }
+      });
+
+      for (const key in frequency) {
+        if (frequency[key] === maxCount) {
+          mode.push(parseFloat(key));
+        }
+      }
+
+      return mode;
+    }
+
+    function calculateMedian(arr) {
+      const sortedArr = arr.slice().sort((a, b) => a - b);
+      const length = sortedArr.length;
+      const midIndex = Math.floor(length / 2);
+
+      if (length % 2 === 0) {
+        return (sortedArr[midIndex - 1] + sortedArr[midIndex]) / 2;
+      } else {
+        return sortedArr[midIndex];
+      }
+    }
+
+    // for console
+    console.log('Correct Data:', dataCorrect);
+    console.log('Lowest Value:', lowestValue);
+    console.log('Index of Lowest Value:', lowestIndex);
+    console.log('Data Scores:', dataScores);
+    console.log('Mean:', mean);
+    console.log('Mode:', mode);
+    console.log('Median:', median);
+    console.log('Standard Deviation:', stdDeviation.toFixed(2));
+    console.log('Highest Score:', highestScore);
+    console.log('Lowest Score:', lowestScore);
+    console.log('Mastery Level:', masteryLevel.toFixed(2));
+
+    document.getElementById('mean').innerText = isNaN(mean) ? 'Please input data' : mean.toFixed(2);
+    document.getElementById('median').innerText = isNaN(median) ? 'Please input data' : median;
+    document.getElementById('mode').innerText = mode;
+    document.getElementById('std-deviation').innerText = isNaN(stdDeviation) ? 'Please input data' : stdDeviation.toFixed(2);
+    document.getElementById('highest-score').innerText = isNaN(highestScore) || !isFinite(highestScore) ? 'Please input data' : highestScore;
+    document.getElementById('lowest-score').innerText = isNaN(lowestScore) || !isFinite(lowestScore) ? 'Please input data' : lowestScore;
+    document.getElementById('mastery-level').innerText = isNaN(masteryLevel) ? 'Please input data' : masteryLevel.toFixed(2) + "%";
+    document.getElementById('freq-lowest-item').innerText = lowestValueOften;
+    document.getElementById('items-lowest-correct').innerText = isNaN(lowestIndex) ? 'Please input data' : (lowestIndex + 1).toString();
+    document.getElementById('lowest-correct-response').innerText = isNaN(lowestValue) || !isFinite(lowestValue) ? 'Please input data' : lowestValue;
+
+  }
+
+  function determineMasteryLevel(mean) {
+    // Replace this logic with your desired criteria for determining the mastery level
+    var mL = mean * 10;
+    return mL;
+  }
+   </script>
+  </body>
+</html>
